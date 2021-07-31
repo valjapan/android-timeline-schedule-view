@@ -19,7 +19,7 @@ allprojects {
 Add the dependency
 ```
 dependencies {
-	implementation 'com.github.r3za13:android-timeline-schedule-view:0.9'
+	implementation 'com.github.valjapan:android-timeline-schedule-view:1.0.1'
 }
 ```
 
