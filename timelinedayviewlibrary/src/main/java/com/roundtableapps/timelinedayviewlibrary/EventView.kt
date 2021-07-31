@@ -25,7 +25,7 @@ class EventView<T : Event> : FrameLayout {
     private var setupView: (view: View) -> Unit = {}
 
     constructor(
-        context: Context?, event: T, itemsMargin: Int = 1,
+        context: Context, event: T, itemsMargin: Int = 1,
         layoutResourceId: Int = R.layout.item_event,
         setupView: (view: View) -> Unit = {},
         onItemClick: (event: T) -> Unit = { _ -> }
@@ -41,8 +41,7 @@ class EventView<T : Event> : FrameLayout {
         init()
     }
 
-    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
-    {
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
         throw IllegalAccessException("Adding EventView from layout not supported in this version.")
     }
 
@@ -83,11 +82,16 @@ class EventView<T : Event> : FrameLayout {
 
     private fun Float.toPx(): Int {
         val r = resources
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this, r.displayMetrics).toInt()
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this, r.displayMetrics)
+            .toInt()
     }
 
     private fun Int.toPx(): Int {
         val r = resources
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), r.displayMetrics).toInt()
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            this.toFloat(),
+            r.displayMetrics
+        ).toInt()
     }
 }

@@ -3,22 +3,22 @@ package com.roundtableapps.timelinedayviewlibrary
 import android.animation.LayoutTransition
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.AttributeSet
-import android.util.TypedValue
-import android.view.ViewGroup
-import kotlin.math.roundToInt
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
-import android.support.v4.content.ContextCompat
+import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.View
+import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import kotlin.math.roundToInt
 
 /**
  * @author R3ZA13 (Reza Abedini)
  * @since 18/11/18
  */
- class TimeLineLayoutGroup : ViewGroup {
+class TimeLineLayoutGroup : ViewGroup {
     var eachHourHeightInDp = 118f
     var minimumHeightEachSellPercentage = .25f
     private var maxChildrenEnd = 0
@@ -49,20 +49,20 @@ import android.view.View
         dividerTitles = mutableListOf()
         for (i in 0 until numberOfRows step 1) {
             dividerTitles.add(
-                    when (i) {
-                        in 0 until 12 -> {
-                            "$i am"
-                        }
-                        12 -> {
-                            "12 pm"
-                        }
-                        in 12 .. 24->{
-                            "${i-12} pm"
-                        }
-                        else -> {
-                            ""
-                        }
+                when (i) {
+                    in 0 until 12 -> {
+                        "$i am"
                     }
+                    12 -> {
+                        "12 pm"
+                    }
+                    in 12..24 -> {
+                        "${i - 12} pm"
+                    }
+                    else -> {
+                        ""
+                    }
+                }
             )
         }
 
@@ -78,8 +78,8 @@ import android.view.View
             textPaint = Paint().apply {
                 color = ContextCompat.getColor(context, dividerTextColorId)
                 textSize = TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_DIP, 16f,
-                        resources.displayMetrics
+                    TypedValue.COMPLEX_UNIT_DIP, 16f,
+                    resources.displayMetrics
                 )
             }
 
@@ -88,7 +88,8 @@ import android.view.View
 
         val ta = context.obtainStyledAttributes(set, R.styleable.TimeLineLayout)
         eachHourHeightInDp = ta.getDimension(R.styleable.TimeLineLayout_eachRowHeight, 118f)
-        minimumHeightEachSellPercentage = ta.getFloat(R.styleable.TimeLineLayout_minimumPercentage, .25f)
+        minimumHeightEachSellPercentage =
+            ta.getFloat(R.styleable.TimeLineLayout_minimumPercentage, .25f)
         numberOfRows = ta.getInteger(R.styleable.TimeLineLayout_numberOfRows, 24)
         @SuppressLint("ResourceAsColor")
         dividerColorId = ta.getColor(R.styleable.TimeLineLayout_dividerColor, Color.BLACK)
@@ -116,8 +117,8 @@ import android.view.View
             @SuppressLint("ResourceAsColor")
             color = dividerTextColorId
             textSize = TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP, 16f,
-                    resources.displayMetrics
+                TypedValue.COMPLEX_UNIT_DIP, 16f,
+                resources.displayMetrics
             )
         }
 
@@ -131,8 +132,11 @@ import android.view.View
         }
         measureChildren(widthMeasureSpec, heightMeasureSpec)
         setMeasuredDimension(
-                Math.max(resources.displayMetrics.widthPixels, (maxChildrenEnd + dividerStartOffset.toPx())),
-                eachHourHeightInDp.toPx() * numberOfRows
+            Math.max(
+                resources.displayMetrics.widthPixels,
+                (maxChildrenEnd + dividerStartOffset.toPx())
+            ),
+            eachHourHeightInDp.toPx() * numberOfRows
         )
     }
 
@@ -153,8 +157,8 @@ import android.view.View
             textPaint.getTextBounds(dividerTitles[i], 0, dividerTitles[i].length, rect)
 
             canvas.drawText(
-                    dividerTitles[i], (dividerInPx - rect.width()) / 2,
-                    y + eachHourHeightInPx / 2 + rect.height() / 2, textPaint
+                dividerTitles[i], (dividerInPx - rect.width()) / 2,
+                y + eachHourHeightInPx / 2 + rect.height() / 2, textPaint
             )
 
             canvas.drawLine(0f, y, measuredWidth.toFloat(), y, dividerPaint)
@@ -178,9 +182,9 @@ import android.view.View
                 child.left
             }
             child.layout(
-                    child.left, child.top,
-                    child.left + child.measuredWidth,
-                    child.top + child.measuredHeight
+                child.left, child.top,
+                child.left + child.measuredWidth,
+                child.top + child.measuredHeight
             )
 
             if (child.right > maxChildrenEnd)
@@ -198,7 +202,7 @@ import android.view.View
 
             //if there is no height collision we can skip to another child to check
             if (!hasCommonTime(child.getEventTime(), childToCheckForSpace.getEventTime())
-                    || child.left + child.measuredWidth < childToCheckForSpace.left
+                || child.left + child.measuredWidth < childToCheckForSpace.left
             )
                 continue
 
@@ -212,11 +216,15 @@ import android.view.View
     }
 
 
-    private fun hasCommonTime(firstRange: Pair<Float, Float>, secondRange: Pair<Float, Float>): Boolean =
-            !(firstRange.first >= secondRange.second || firstRange.second <= secondRange.first)
+    private fun hasCommonTime(
+        firstRange: Pair<Float, Float>,
+        secondRange: Pair<Float, Float>
+    ): Boolean =
+        !(firstRange.first >= secondRange.second || firstRange.second <= secondRange.first)
 
 
-    private fun convertMinuteToPx(startTime: Float) = (startTime * eachHourHeightInDp.toPx()).roundToInt()
+    private fun convertMinuteToPx(startTime: Float) =
+        (startTime * eachHourHeightInDp.toPx()).roundToInt()
 
 
     override fun generateLayoutParams(attrs: AttributeSet): LayoutParams {
@@ -224,7 +232,10 @@ import android.view.View
     }
 
     override fun generateDefaultLayoutParams(): LayoutParams {
-        return LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        return LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
     }
 
     override fun generateLayoutParams(p: ViewGroup.LayoutParams): ViewGroup.LayoutParams {
@@ -254,7 +265,8 @@ import android.view.View
 
     private fun Float.toPx(): Int {
         val r = resources
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this, r.displayMetrics).toInt()
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this, r.displayMetrics)
+            .toInt()
     }
 
 
