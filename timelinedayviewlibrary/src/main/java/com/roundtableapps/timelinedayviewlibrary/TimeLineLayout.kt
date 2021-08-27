@@ -28,8 +28,8 @@ class TimeLineLayout : ScrollView {
         (horizontalScrollView.getChildAt(0) as ViewGroup).addView(child)
     }
     
-    fun <T: Event> removeEvent(child: EventView<T>?){
-        (horizontalScrollView.getChildAt(0) as ViewGroup).removeView(child)
+    fun removeEvent(){
+        (horizontalScrollView as ViewGroup).removeAllViews()
     }
 
 }
