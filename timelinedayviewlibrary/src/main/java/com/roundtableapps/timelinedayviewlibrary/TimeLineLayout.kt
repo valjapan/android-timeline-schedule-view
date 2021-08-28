@@ -14,8 +14,7 @@ class TimeLineLayout : ScrollView {
     private lateinit var horizontalScrollView: HorizontalScrollView
 
     constructor(context: Context?) : super(context)
-    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
-    {
+    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {
         horizontalScrollView = HorizontalScrollView(context)
         horizontalScrollView.addView(TimeLineLayoutGroup(context, attrs))
         addView(horizontalScrollView)
@@ -27,8 +26,12 @@ class TimeLineLayout : ScrollView {
     fun <T : Event> addEvent(child: EventView<T>?) {
         (horizontalScrollView.getChildAt(0) as ViewGroup).addView(child)
     }
-    
-    fun removeEvent(){
+
+    fun <T : Event> removeEvent(child: EventView<T>?) {
+        (horizontalScrollView.getChildAt(0) as ViewGroup).removeView(child)
+    }
+
+    fun removeAllEvent() {
         (horizontalScrollView as ViewGroup).removeAllViews()
     }
 

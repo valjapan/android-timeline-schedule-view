@@ -6,7 +6,7 @@
         <attr name="minimumPercentage" format="float"/>
         <attr name="dividerColor" format="color"/>
         <attr name="dividerTextColor" format="color"/>
-        <attr name="dividerTitles"/>
+        <attr name="dividerTitles" format="string"/>
         <attr name="dividerStartOffset" format="dimension"/>
     </declare-styleable>
 </resources>
