@@ -28,7 +28,7 @@ class TimeLineLayoutGroup : ViewGroup {
     private lateinit var textPaint: Paint
     private var dividerColorId: Int = R.color.divider_color
     private var dividerTextColorId: Int = R.color.title_color
-    private lateinit var dividerTitles: ArrayList<String>
+    private lateinit var dividerTitles: MutableList(String)
 
 
     constructor(context: Context?) : super(context) {
